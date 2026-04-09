@@ -4,10 +4,10 @@ import {
   createTask,
   addTask,
   toggleTask,
-  removeTask, 
-  resetId,
+  removeTask,
+  filterTasks, 
 } from '../src/taskManager.js';
-
+ 
 // ============================================================
 // 1. validateTitle
 // ============================================================
@@ -67,9 +67,9 @@ describe('removeTask', () => {
 
   beforeEach(() => {
     resetId();
-    tasks = addTask([], 'Tarefa 1'); 
-    tasks = addTask(tasks, 'Tarefa 2'); 
-    tasks = addTask(tasks, 'Tarefa 3'); 
+    tasks = addTask([], 'Tarefa 1'); // id 1
+    tasks = addTask(tasks, 'Tarefa 2'); // id 2
+    tasks = addTask(tasks, 'Tarefa 3'); // id 3
   });
 
   it('deve remover uma tarefa pelo ID', () => {
@@ -86,12 +86,49 @@ describe('removeTask', () => {
 
   it('deve retornar um NOVO array (imutabilidade)', () => {
     const updated = removeTask(tasks, 1);
-    expect(updated).not.toBe(tasks); 
-    expect(tasks).toHaveLength(3);   
+    expect(updated).not.toBe(tasks); // Verifica se a referência mudou
+    expect(tasks).toHaveLength(3);   // Original continua intacto
   });
 
   it('deve retornar a lista completa se o ID não existir', () => {
     const updated = removeTask(tasks, 999);
     expect(updated).toHaveLength(3);
+  });
+}); 
+
+// ============================================================
+// 6. filterTasks (EXERCÍCIO 2)
+// ============================================================
+describe('filterTasks', () => {
+  let tasks;
+
+  beforeEach(() => {
+    resetId();
+    tasks = addTask([], 'Tarefa 1'); 
+    tasks = addTask(tasks, 'Tarefa 2'); 
+    tasks = addTask(tasks, 'Tarefa 3'); 
+    tasks = tasks.map((t) => (t.id === 2 ? toggleTask(t) : t));
+  });
+
+  it('deve retornar todas as tarefas com filtro "all"', () => {
+    const result = filterTasks(tasks, 'all');
+    expect(result).toHaveLength(3);
+  });
+
+  it('deve retornar apenas pendentes com filtro "pending"', () => {
+    const result = filterTasks(tasks, 'pending');
+    expect(result).toHaveLength(2);
+    result.forEach((t) => expect(t.completed).toBe(false));
+  });
+
+  it('deve retornar apenas concluídas com filtro "completed"', () => {
+    const result = filterTasks(tasks, 'completed');
+    expect(result).toHaveLength(1);
+    expect(result[0].id).toBe(2);
+  });
+
+  it('deve retornar um NOVO array (imutabilidade)', () => {
+    const result = filterTasks(tasks, 'all');
+    expect(result).not.toBe(tasks);
   });
 });
