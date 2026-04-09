@@ -8,7 +8,8 @@ import {
   filterTasks,
   countTasks,      
   countCompleted,  
-  countPending, 
+  countPending,
+  resetId,
 } from '../src/taskManager.js';
  
 // ============================================================
