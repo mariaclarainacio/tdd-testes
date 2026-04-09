@@ -10,11 +10,15 @@ export function validateTitle(title) {
   return trimmed.length >= 3;
 }
 
-export function createTask(title) {
+// ------------------------------------------------------------
+// Criação (Atualizada para Prioridade - Exercício 4)
+// ------------------------------------------------------------
+export function createTask(title, priority = 'medium') {
   return {
     id: _nextId++,
     title: title.trim(),
     completed: false,
+    priority: priority,
   };
 }
 
@@ -49,6 +53,21 @@ export function filterTasks(tasks, status) {
   }
 }
 
+// ------------------------------------------------------------
+// Novas funções de Prioridade (Exercício 4)
+// ------------------------------------------------------------
+export function validatePriority(priority) {
+  const validPriorities = ['low', 'medium', 'high'];
+  return validPriorities.includes(priority);
+}
+
+export function filterByPriority(tasks, priority) {
+  return tasks.filter(t => t.priority === priority);
+}
+
+// ------------------------------------------------------------
+// Contagens
+// ------------------------------------------------------------
 export function countTasks(tasks) {
   return tasks.length;
 }
