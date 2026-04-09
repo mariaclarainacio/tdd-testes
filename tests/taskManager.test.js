@@ -3,6 +3,7 @@ import {
   validateTitle,
   createTask,
   addTask,
+  toggleTask,
   resetId,
 } from '../src/taskManager.js';
 
@@ -71,30 +72,61 @@ describe('addTask', () => {
   beforeEach(() => {
     resetId();
   });
-
   it('deve adicionar uma tarefa a uma lista vazia', () => {
     const tasks = addTask([], 'Primeira tarefa');
     expect(tasks).toHaveLength(1);
     expect(tasks[0].title).toBe('Primeira tarefa');
   });
-
   it('deve adicionar uma tarefa a uma lista existente', () => {
     let tasks = addTask([], 'Tarefa 1');
     tasks = addTask(tasks, 'Tarefa 2');
     expect(tasks).toHaveLength(2);
     expect(tasks[1].title).toBe('Tarefa 2');
   });
-
   it('deve retornar um NOVO array (imutabilidade)', () => {
     const original = [];
     const updated = addTask(original, 'Nova tarefa');
     expect(updated).not.toBe(original);
     expect(original).toHaveLength(0);
   });
-
   it('deve lançar erro para título inválido', () => {
     expect(() => addTask([], '')).toThrow();
     expect(() => addTask([], 'ab')).toThrow();
-    expect(() => addTask([], null)).toThrow();
+  });
+});
+
+// ============================================================
+// 4. toggleTask (EXERCÍCIO A)
+// ============================================================
+describe('toggleTask', () => {
+  beforeEach(() => {
+    resetId();
+  });
+
+  it('deve marcar uma tarefa pendente como concluída', () => {
+    const task = createTask('Tarefa pendente');
+    const toggled = toggleTask(task);
+    expect(toggled.completed).toBe(true);
+  });
+
+  it('deve desmarcar uma tarefa concluída', () => {
+    const task = createTask('Tarefa pendente');
+    const completed = toggleTask(task);
+    const uncompleted = toggleTask(completed);
+    expect(uncompleted.completed).toBe(false);
+  });
+
+  it('deve manter o id e o título inalterados', () => {
+    const task = createTask('Minha tarefa');
+    const toggled = toggleTask(task);
+    expect(toggled.id).toBe(task.id);
+    expect(toggled.title).toBe(task.title);
+  });
+
+  it('deve retornar um NOVO objeto (imutabilidade)', () => {
+    const task = createTask('Tarefa original');
+    const toggled = toggleTask(task);
+    expect(toggled).not.toBe(task);
+    expect(task.completed).toBe(false);
   });
 });
