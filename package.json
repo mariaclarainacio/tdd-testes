@@ -1,0 +1,25 @@
+{
+  "name": "tdd-testes",
+  "version": "1.0.0",
+  "description": "Aula prática de testes unitários com Vitest e TDD",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "coverage": "vitest run --coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mariaclarainacio/tdd-testes.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mariaclarainacio/tdd-testes/issues"
+  },
+  "homepage": "https://github.com/mariaclarainacio/tdd-testes#readme",
+  "devDependencies": {
+    "vitest": "^4.1.3"
+  }
+}
