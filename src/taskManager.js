@@ -1,41 +1,35 @@
 let _nextId = 1;
 
-export function resetId() {
-  _nextId = 1;
-}
-
+export function resetId() { _nextId = 1; }
 export function validateTitle(title) {
   if (typeof title !== 'string') return false;
-  const trimmed = title.trim();
-  return trimmed.length >= 3;
+  return title.trim().length >= 3;
 }
-
 export function createTask(title) {
-  return {
-    id: _nextId++,
-    title: title.trim(),
-    completed: false,
-  };
+  return { id: _nextId++, title: title.trim(), completed: false };
 }
-
 export function addTask(tasks, title) {
-  if (!validateTitle(title)) {
-    throw new Error('Título inválido');
-  }
-  const newTask = createTask(title);
-  return [...tasks, newTask];
+  if (!validateTitle(title)) throw new Error('Título inválido');
+  return [...tasks, createTask(title)];
 }
-
 export function toggleTask(task) {
-  return {
-    ...task,
-    completed: !task.completed,
-  };
+  return { ...task, completed: !task.completed };
 }
-
-// ------------------------------------------------------------
-// Remoção (EXERCÍCIO 1)
-// ------------------------------------------------------------
 export function removeTask(tasks, taskId) {
   return tasks.filter((task) => task.id !== taskId);
+}
+
+// ------------------------------------------------------------
+// Filtros (EXERCÍCIO 2)
+// ------------------------------------------------------------
+export function filterTasks(tasks, status) {
+  switch (status) {
+    case 'completed':
+      return tasks.filter((t) => t.completed === true);
+    case 'pending':
+      return tasks.filter((t) => t.completed === false);
+    case 'all':
+    default:
+      return [...tasks];
+  }
 }
