@@ -1,31 +1,13 @@
-let _nextId = 1;
-
-/**
- * Reseta o contador de IDs (útil para testes determinísticos).
- */
-export function resetId() {
-  _nextId = 1;
-}
-
 // ------------------------------------------------------------
-// Validação
+// Adição com validação
 // ------------------------------------------------------------
-export function validateTitle(title) {
-  if (typeof title !== 'string') {
-    return false;
+export function addTask(tasks, title) {
+  if (!validateTitle(title)) {
+    throw new Error(
+      'Título inválido: deve ser uma string com pelo menos 3 caracteres.'
+    );
   }
 
-  const trimmed = title.trim();
-  return trimmed.length >= 3;
-}
-
-// ------------------------------------------------------------
-// Criação
-// ------------------------------------------------------------
-export function createTask(title) {
-  return {
-    id: _nextId++,
-    title: title.trim(),
-    completed: false,
-  };
+  const newTask = createTask(title);
+  return [...tasks, newTask];
 }
