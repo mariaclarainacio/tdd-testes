@@ -11,7 +11,7 @@ export function validateTitle(title) {
 }
 
 // ------------------------------------------------------------
-// Criação (Atualizada para Prioridade - Exercício 4)
+// Criação
 // ------------------------------------------------------------
 export function createTask(title, priority = 'medium') {
   return {
@@ -22,14 +22,33 @@ export function createTask(title, priority = 'medium') {
   };
 }
 
+// ------------------------------------------------------------
+// Adição (Atualizada para Exercício 5)
+// ------------------------------------------------------------
 export function addTask(tasks, title) {
   if (!validateTitle(title)) {
     throw new Error('Título inválido');
   }
+
+  if (isDuplicate(tasks, title)) {
+    throw new Error('Tarefa duplicada');
+  }
+
   const newTask = createTask(title);
   return [...tasks, newTask];
 }
 
+// ------------------------------------------------------------
+// Detecção de Duplicatas (Exercício 5)
+// ------------------------------------------------------------
+export function isDuplicate(tasks, title) {
+  const normalizedTitle = title.trim().toLowerCase();
+  return tasks.some(t => t.title.toLowerCase() === normalizedTitle);
+}
+
+// ------------------------------------------------------------
+// Alteração de estado
+// ------------------------------------------------------------
 export function toggleTask(task) {
   return {
     ...task,
@@ -37,10 +56,16 @@ export function toggleTask(task) {
   };
 }
 
+// ------------------------------------------------------------
+// Remoção
+// ------------------------------------------------------------
 export function removeTask(tasks, taskId) {
   return tasks.filter((task) => task.id !== taskId);
 }
 
+// ------------------------------------------------------------
+// Filtros
+// ------------------------------------------------------------
 export function filterTasks(tasks, status) {
   switch (status) {
     case 'completed':
@@ -53,9 +78,6 @@ export function filterTasks(tasks, status) {
   }
 }
 
-// ------------------------------------------------------------
-// Novas funções de Prioridade (Exercício 4)
-// ------------------------------------------------------------
 export function validatePriority(priority) {
   const validPriorities = ['low', 'medium', 'high'];
   return validPriorities.includes(priority);
