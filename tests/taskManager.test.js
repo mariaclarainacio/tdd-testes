@@ -13,6 +13,7 @@ import {
   filterByPriority,
   isDuplicate,
   sortTasks, 
+  searchTasks,
   resetId,
 } from '../src/taskManager.js';
 
@@ -420,11 +421,11 @@ describe('Tarefas Duplicadas', () => {
 // ============================================================
 // 10. Exercício 6: Ordenar tarefas
 // ============================================================
-describe('Ordenar Tarefas', () => {
+describe('sortTasks', () => {
   it('deve ordenar pendentes antes de concluídas', () => {
     const tasks = [
-      { title: 'Concluída', completed: true },
-      { title: 'Pendente', completed: false }
+      { title: 'Tarefa A', completed: true },
+      { title: 'Tarefa B', completed: false }
     ];
     const sorted = sortTasks(tasks);
     expect(sorted[0].completed).toBe(false);
@@ -432,8 +433,31 @@ describe('Ordenar Tarefas', () => {
   });
 
   it('deve retornar um NOVO array (imutabilidade)', () => {
-    const tasks = [{ completed: true }, { completed: false }];
-    const sorted = sortTasks(tasks);
-    expect(sorted).not.toBe(tasks);
+    const tasks = [{ completed: true }];
+    expect(sortTasks(tasks)).not.toBe(tasks);
+  });
+});
+
+// ============================================================
+// 11. Exercício 7: Busca por texto
+// ============================================================
+describe('searchTasks', () => {
+  const tasks = [
+    { title: 'Estudar Vitest' },
+    { title: 'Fazer compras' },
+    { title: 'TESTAR código' }
+  ];
+
+  it('deve encontrar tarefas por texto (case-insensitive)', () => {
+    const result = searchTasks(tasks, 'est');
+    expect(result).toHaveLength(2); // Estudar e TESTAR
+  });
+
+  it('deve retornar todas as tarefas se a busca for vazia', () => {
+    expect(searchTasks(tasks, '')).toHaveLength(3);
+  });
+
+  it('deve retornar array vazio se não encontrar nada', () => {
+    expect(searchTasks(tasks, 'xyz')).toHaveLength(0);
   });
 });
