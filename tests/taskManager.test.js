@@ -5,7 +5,10 @@ import {
   addTask,
   toggleTask,
   removeTask,
-  filterTasks, 
+  filterTasks,
+  countTasks,      
+  countCompleted,  
+  countPending, 
 } from '../src/taskManager.js';
  
 // ============================================================
@@ -67,9 +70,9 @@ describe('removeTask', () => {
 
   beforeEach(() => {
     resetId();
-    tasks = addTask([], 'Tarefa 1'); // id 1
-    tasks = addTask(tasks, 'Tarefa 2'); // id 2
-    tasks = addTask(tasks, 'Tarefa 3'); // id 3
+    tasks = addTask([], 'Tarefa 1'); 
+    tasks = addTask(tasks, 'Tarefa 2'); 
+    tasks = addTask(tasks, 'Tarefa 3'); 
   });
 
   it('deve remover uma tarefa pelo ID', () => {
@@ -86,8 +89,8 @@ describe('removeTask', () => {
 
   it('deve retornar um NOVO array (imutabilidade)', () => {
     const updated = removeTask(tasks, 1);
-    expect(updated).not.toBe(tasks); // Verifica se a referência mudou
-    expect(tasks).toHaveLength(3);   // Original continua intacto
+    expect(updated).not.toBe(tasks); 
+    expect(tasks).toHaveLength(3);  
   });
 
   it('deve retornar a lista completa se o ID não existir', () => {
@@ -130,5 +133,36 @@ describe('filterTasks', () => {
   it('deve retornar um NOVO array (imutabilidade)', () => {
     const result = filterTasks(tasks, 'all');
     expect(result).not.toBe(tasks);
+  });
+});
+
+// ============================================================
+// 7. Contagens (EXERCÍCIO 3)
+// ============================================================
+describe('countTasks', () => {
+  it('deve retornar o total de tarefas', () => {
+    const tasks = [{ id: 1 }, { id: 2 }];
+    expect(countTasks(tasks)).toBe(2);
+  });
+});
+
+describe('countCompleted', () => {
+  it('deve contar apenas as tarefas concluídas', () => {
+    const tasks = [
+      { completed: true },
+      { completed: false },
+      { completed: true }
+    ];
+    expect(countCompleted(tasks)).toBe(2);
+  });
+});
+
+describe('countPending', () => {
+  it('deve contar apenas as tarefas pendentes', () => {
+    const tasks = [
+      { completed: true },
+      { completed: false }
+    ];
+    expect(countPending(tasks)).toBe(1);
   });
 });
