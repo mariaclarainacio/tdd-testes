@@ -101,3 +101,10 @@ export function countCompleted(tasks) {
 export function countPending(tasks) {
   return tasks.filter((t) => t.completed === false).length;
 }
+
+// ------------------------------------------------------------
+// Ordenação (Exercício 6)
+// ------------------------------------------------------------
+export function sortTasks(tasks) {
+  return [...tasks].sort((a, b) => a.completed - b.completed);
+}
