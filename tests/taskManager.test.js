@@ -11,7 +11,9 @@ import {
   countPending,
   validatePriority,
   filterByPriority,
-  isDuplicate, 
+  isDuplicate,
+  sortTasks, 
+  resetId,
 } from '../src/taskManager.js';
 
  
@@ -412,5 +414,26 @@ describe('Tarefas Duplicadas', () => {
   it('deve lançar erro ao tentar adicionar tarefa com título existente', () => {
     const tasks = [{ title: 'Tarefa 1' }];
     expect(() => addTask(tasks, 'Tarefa 1')).toThrow('Tarefa duplicada');
+  });
+});
+
+// ============================================================
+// 10. Exercício 6: Ordenar tarefas
+// ============================================================
+describe('Ordenar Tarefas', () => {
+  it('deve ordenar pendentes antes de concluídas', () => {
+    const tasks = [
+      { title: 'Concluída', completed: true },
+      { title: 'Pendente', completed: false }
+    ];
+    const sorted = sortTasks(tasks);
+    expect(sorted[0].completed).toBe(false);
+    expect(sorted[1].completed).toBe(true);
+  });
+
+  it('deve retornar um NOVO array (imutabilidade)', () => {
+    const tasks = [{ completed: true }, { completed: false }];
+    const sorted = sortTasks(tasks);
+    expect(sorted).not.toBe(tasks);
   });
 });
