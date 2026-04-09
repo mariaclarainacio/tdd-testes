@@ -1,3 +1,9 @@
+import {
+  validatePriority,
+  filterByPriority,
+  resetId,
+} from '../src/taskManager.js';
+
 import { describe, it, expect, beforeEach } from 'vitest';
 import {
   validateTitle,
@@ -165,5 +171,37 @@ describe('countPending', () => {
       { completed: false }
     ];
     expect(countPending(tasks)).toBe(1);
+  });
+});
+
+// ============================================================
+// 8. Exercício 4: Prioridade
+// ============================================================
+describe('Prioridade das Tarefas', () => {
+  beforeEach(() => { resetId(); });
+
+  it('deve criar tarefa com prioridade high', () => {
+    const task = createTask('Estudar TDD', 'high');
+    expect(task.priority).toBe('high');
+  });
+
+  it('deve usar priority medium como padrão', () => {
+    const task = createTask('Tarefa Padrão');
+    expect(task.priority).toBe('medium');
+  });
+
+  it('deve validar prioridades corretamente', () => {
+    expect(validatePriority('low')).toBe(true);
+    expect(validatePriority('urgente')).toBe(false);
+  });
+
+  it('deve filtrar tarefas por prioridade', () => {
+    const t1 = createTask('T1', 'high');
+    const t2 = createTask('T2', 'low');
+    const tasks = [t1, t2];
+    
+    const highTasks = filterByPriority(tasks, 'high');
+    expect(highTasks).toHaveLength(1);
+    expect(highTasks[0].title).toBe('T1');
   });
 });
