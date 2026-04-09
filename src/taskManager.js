@@ -26,12 +26,16 @@ export function addTask(tasks, title) {
   return [...tasks, newTask];
 }
 
-// ------------------------------------------------------------
-// Alteração de estado (EXERCÍCIO A)
-// ------------------------------------------------------------
 export function toggleTask(task) {
   return {
     ...task,
     completed: !task.completed,
   };
+}
+
+// ------------------------------------------------------------
+// Remoção (EXERCÍCIO 1)
+// ------------------------------------------------------------
+export function removeTask(tasks, taskId) {
+  return tasks.filter((task) => task.id !== taskId);
 }
